@@ -1,0 +1,59 @@
+{
+  "name": "cerebral-view-inferno",
+  "version": "0.0.0-semantically-released",
+  "description": "React View layer package for Cerebral",
+  "main": "index.js",
+  "scripts": {
+    "test": "standard",
+    "semantic-release": "semantic-release pre && npm publish && semantic-release post"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/cerebral/cerebral-view-inferno.git"
+  },
+  "keywords": [
+    "react",
+    "cerebral",
+    "flux",
+    "mvc"
+  ],
+  "author": "Christian Alfoni <christianalfoni@gmail.com>",
+  "contributors": [
+    "Aleksey Guryanov <gurianov@gmail.com>"
+  ],
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/cerebral/cerebral-view-inferno/issues"
+  },
+  "homepage": "https://github.com/cerebral/cerebral-view-inferno#readme",
+  "devDependencies": {
+    "commitizen": "^2.5.0",
+    "conventional-changelog": "0.0.17",
+    "cz-customizable": "^2.7.1",
+    "ghooks": "^1.0.3",
+    "semantic-release": "^4.3.5",
+    "standard": "^5.4.1",
+    "validate-commit-msg": "^1.1.1"
+  },
+  "dependencies": {
+    "cerebral": "^0.33.0 || ^0.34.0-0",
+    "inferno": "^0.7.16",
+    "inferno-dom": "^0.7.16",
+    "inferno-create-element": "^0.7.16",
+    "inferno-component": "^0.7.16"
+  },
+  "config": {
+    "commitizen": {
+      "path": "node_modules/cz-customizable"
+    },
+    "ghooks": {
+      "commit-msg": "validate-commit-msg"
+    }
+  },
+  "release": {
+    "analyzeCommits": "./sr-prerelease.js"
+  },
+  "dependencies": {
+    "lodash.get": "^4.0.0"
+  }
+}
