@@ -48,7 +48,7 @@ module.exports = function (Component, paths) {
       if (oldPropKeys.length !== newPropKeys.length) {
         hasChange = true
       } else {
-        for (var i = 0 i < newPropKeys.length i++) {
+        for (var i = 0; i < newPropKeys.length; i++) {
           if (this.props[newPropKeys[i]] !== nextProps[newPropKeys[i]]) {
             hasChange = true
             break

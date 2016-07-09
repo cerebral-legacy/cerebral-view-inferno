@@ -1,6 +1,6 @@
 {
   "name": "cerebral-view-inferno",
-  "version": "1.0.1",
+  "version": "0.0.0-semantically-released",
   "description": "React View layer package for Cerebral",
   "main": "index.js",
   "scripts": {
