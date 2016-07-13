@@ -7,8 +7,6 @@ class Container extends Component {
   constructor (props) {
     super(props)
     this.componentsMap = {}
-    this.overlays = {}
-    this.overlaysContainer = null
     this.registerComponent = this.registerComponent.bind(this)
     this.unregisterComponent = this.unregisterComponent.bind(this)
     this.updateComponent = this.updateComponent.bind(this)
