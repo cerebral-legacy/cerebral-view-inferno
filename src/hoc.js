@@ -1,8 +1,8 @@
-var Inferno = require('inferno')
+var Inferno = require('inferno') // eslint-disable-line
 var createElement = require('inferno-create-element')
 var InfernoComponent = require('inferno-component')
 
-function extractDeps(deps, allDeps) {
+function extractDeps (deps, allDeps) {
   return Object.keys(deps).reduce(function (depsMap, key) {
     if (deps[key].getDepsMap) {
       return extractDeps(deps[key].getDepsMap(), allDeps)
@@ -14,7 +14,7 @@ function extractDeps(deps, allDeps) {
   }, allDeps)
 }
 
-function functionName(fun) {
+function functionName (fun) {
   var ret = fun.toString()
   ret = ret.substr('function '.length)
   ret = ret.substr(0, ret.indexOf('('))
@@ -22,9 +22,8 @@ function functionName(fun) {
 }
 
 module.exports = function (Component, paths) {
-
   class CerebralComponent extends InfernoComponent {
-    componentWillMount() {
+    componentWillMount () {
       this.signals = this.context.cerebral.controller.isServer ? {} : this.context.cerebral.controller.getSignals()
       this.modules = this.context.cerebral.controller.isServer ? {} : this.context.cerebral.controller.getModules()
 
@@ -34,14 +33,14 @@ module.exports = function (Component, paths) {
       }
       this.context.cerebral.registerComponent(this, this.getDepsMap(this.props))
     }
-    componentWillUnmount() {
+    componentWillUnmount () {
       this._isUmounting = true
       this.context.cerebral.unregisterComponent(this)
     }
-    shouldComponentUpdate() {
+    shouldComponentUpdate () {
       return false
     }
-    componentWillReceiveProps(nextProps) {
+    componentWillReceiveProps (nextProps) {
       var hasChange = false
       var oldPropKeys = Object.keys(this.props)
       var newPropKeys = Object.keys(nextProps)
@@ -62,7 +61,7 @@ module.exports = function (Component, paths) {
         hasChange && this._update()
       }
     }
-    getProps() {
+    getProps () {
       var controller = this.context.cerebral.controller
       var props = this.props || {}
       var paths = this.getStatePaths ? this.getStatePaths(this.props) : {}
@@ -82,22 +81,19 @@ module.exports = function (Component, paths) {
 
       return propsToPass
     }
-    _update(showOverlay) {
+    _update () {
       if (this._isUmounting) {
         return
       }
-      if (showOverlay && !this.showingOverlay) {
-        this.showOverlay = true
-      }
       this.forceUpdate()
     }
-    getPropsWithModules(props) {
+    getPropsWithModules (props) {
       return Object.keys(props).reduce(function (propsWithModules, key) {
         propsWithModules[key] = props[key]
         return propsWithModules
       }, {modules: this.modules})
     }
-    getDepsMap(props) {
+    getDepsMap (props) {
       if (!paths) {
         return {}
       }
@@ -106,7 +102,7 @@ module.exports = function (Component, paths) {
 
       return extractDeps(deps, {})
     }
-    getStatePaths(props) {
+    getStatePaths (props) {
       if (!paths) {
         return {}
       }
@@ -116,7 +112,7 @@ module.exports = function (Component, paths) {
       }, {modules: this.modules})
       return typeof paths === 'function' ? paths(propsWithModules) : paths
     }
-    render() {
+    render () {
       return createElement(Component, this.getProps())
     }
   }

@@ -1,4 +1,5 @@
-var InfernoDOM = require('inferno-dom')
+/* global CustomEvent */
+var InfernoDOM = require('inferno-dom') // eslint-disable-line
 var createElement = require('inferno-create-element')
 var Component = require('inferno-component')
 
@@ -6,8 +7,6 @@ class Container extends Component {
   constructor (props) {
     super(props)
     this.componentsMap = {}
-    this.overlays = {}
-    this.overlaysContainer = null
     this.registerComponent = this.registerComponent.bind(this)
     this.unregisterComponent = this.unregisterComponent.bind(this)
     this.updateComponent = this.updateComponent.bind(this)
@@ -24,20 +23,14 @@ class Container extends Component {
     }
   }
   componentWillMount () {
-    var container = this
     this.props.controller.on('flush', this.onCerebralUpdate)
-
-    var container = this
-    window.addEventListener('cerebral.dev.componentMapPath', function (event) {
-      container.updateOverlays(container.componentsMap[event.detail.mapPath])
-    })
   }
-  extractComponentName(component) {
+  extractComponentName (component) {
     return component.constructor.displayName.replace('CerebralWrapping_', '')
   }
   onCerebralUpdate (changes) {
     var componentsMap = this.componentsMap
-    function traverse(level, currentPath, componentsToRender) {
+    function traverse (level, currentPath, componentsToRender) {
       Object.keys(level).forEach(function (key) {
         currentPath.push(key)
         var stringPath = currentPath.join('.')
@@ -83,59 +76,6 @@ class Container extends Component {
       window.dispatchEvent(event)
     }
   }
-  renderOverlays() {
-    if (this.isShowingOverlays) {
-      return
-    }
-    this.isShowingOverlays = true
-    var overlaysContainer = this.overlaysContainer
-    if (!overlaysContainer) {
-      overlaysContainer = document.createElement('div')
-      overlaysContainer.style.position = 'absolute'
-      overlaysContainer.style.left = '0px'
-      overlaysContainer.style.top = '0px'
-      document.body.appendChild(overlaysContainer)
-    }
-    var overlays = this.overlays
-    InfernoDOM.render(
-      createElement('div', {
-        id: 'cerebral_render_overlay',
-        style: {
-          opacity: 0,
-          transition: 'opacity 0.5s ease-out',
-          zIndex: 9999999999
-        }
-      }, overlays.map(function (overlay, index) {
-        return createElement(Overlay, {key: index, overlay: overlay, index: index})
-      })
-    ), overlaysContainer)
-
-    var container = this
-    setTimeout(function () {
-      document.querySelector('#cerebral_render_overlay').style.opacity = 0.3
-    }, 10)
-    setTimeout(function () {
-      document.querySelector('#cerebral_render_overlay').style.opacity = 0
-      setTimeout(function () {
-        InfernoDOM.unmountComponentAtNode(overlaysContainer)
-        container.isShowingOverlays = false
-      }, 500)
-    }, 2000)
-  }
-  updateOverlays (componentsToRender) {
-
-    var container = this
-
-    this.overlays = componentsToRender.map(function (component) {
-      return {
-        bounds: InfernoDOM.findDOMNode(component).getBoundingClientRect(),
-        offset: document.body.scrollTop
-      }
-    })
-
-    this.renderOverlays()
-
-  }
   registerComponent (comp, deps) {
     this.componentsMap = Object.keys(deps).reduce(function (componentsMap, key) {
       componentsMap[key] = componentsMap[key] ? componentsMap[key].concat(comp) : [comp]
@@ -147,7 +87,7 @@ class Container extends Component {
     this.registerComponent(comp, deps)
     comp._update()
   }
-  unregisterComponent(comp) {
+  unregisterComponent (comp) {
     var componentsMap = this.componentsMap
     Object.keys(componentsMap).forEach(function (key) {
       if (componentsMap[key].indexOf(comp) >= 0) {
@@ -158,7 +98,7 @@ class Container extends Component {
       }
     })
   }
-  render() {
+  render () {
     return createElement('div', this.props, this.props.children)
   }
 }
