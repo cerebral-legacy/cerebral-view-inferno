@@ -81,12 +81,9 @@ module.exports = function (Component, paths) {
 
       return propsToPass
     }
-    _update (showOverlay) {
+    _update () {
       if (this._isUmounting) {
         return
-      }
-      if (showOverlay && !this.showingOverlay) {
-        this.showOverlay = true
       }
       this.forceUpdate()
     }
