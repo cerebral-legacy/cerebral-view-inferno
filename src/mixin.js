@@ -1,4 +1,4 @@
-var Inferno = require('inferno')
+var Inferno = require('inferno') // eslint-disable-line
 
 module.exports = {
   /*
