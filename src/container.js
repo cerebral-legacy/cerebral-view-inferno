@@ -25,10 +25,13 @@ class Container extends Component {
   componentWillMount () {
     this.props.controller.on('flush', this.onCerebralUpdate)
   }
+  componentDidMount() {
+    this.onCerebralUpdate({}, true)
+  }
   extractComponentName (component) {
     return component.constructor.displayName.replace('CerebralWrapping_', '')
   }
-  onCerebralUpdate (changes) {
+  onCerebralUpdate (changes, force) {
     var componentsMap = this.componentsMap
     function traverse (level, currentPath, componentsToRender) {
       Object.keys(level).forEach(function (key) {
@@ -56,7 +59,7 @@ class Container extends Component {
     })
     var end = Date.now()
 
-    if (process.env.NODE_ENV !== 'production' && componentsToRender.length) {
+    if (process.env.NODE_ENV !== 'production' && (componentsToRender.length || force)) {
       var container = this
       var devtoolsComponentsMap = Object.keys(componentsMap).reduce(function (devtoolsComponentsMap, key) {
         devtoolsComponentsMap[key] = componentsMap[key].map(container.extractComponentName)
