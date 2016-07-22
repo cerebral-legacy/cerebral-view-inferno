@@ -21,7 +21,7 @@ function functionName (fun) {
   return ret
 }
 
-module.exports = function (Component, paths) {
+module.exports = function (paths, signals, Component) {
   class CerebralComponent extends InfernoComponent {
     componentWillMount () {
       this.signals = this.context.cerebral.controller.isServer ? {} : this.context.cerebral.controller.getSignals()
@@ -76,7 +76,17 @@ module.exports = function (Component, paths) {
         return propsToPass
       }, propsToPass)
 
-      propsToPass.signals = this.signals
+      if (signals) {
+        propsToPass = Object.keys(signals).reduce(function (props, key) {
+          props[key] = controller.getSignals(signals[key])
+
+          return props
+        }, propsToPass)
+      } else {
+        // expose all signals
+        propsToPass.signals = this.signals
+      }
+
       propsToPass.modules = this.modules
 
       return propsToPass
