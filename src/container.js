@@ -25,7 +25,7 @@ class Container extends Component {
   componentWillMount () {
     this.props.controller.on('flush', this.onCerebralUpdate)
   }
-  componentDidMount() {
+  componentdidMount() {
     this.onCerebralUpdate({}, true)
   }
   extractComponentName (component) {
@@ -55,14 +55,21 @@ class Container extends Component {
     var start = Date.now()
     var componentsToRender = traverse(changes, [], [])
     componentsToRender.forEach(function (component) {
+      component.renderCount = 'renderCount' in component ? component.renderCount + 1 : 1
       component._update()
     })
     var end = Date.now()
 
-    if (process.env.NODE_ENV !== 'production' && (componentsToRender.length || force)) {
+    if (process.env.NODE_ENV !== 'production' && (componentsToRender.length) {
       var container = this
       var devtoolsComponentsMap = Object.keys(componentsMap).reduce(function (devtoolsComponentsMap, key) {
-        devtoolsComponentsMap[key] = componentsMap[key].map(container.extractComponentName)
+        devtoolsComponentsMap[key] = componentsMap[key].map(function (component) {
+          component.renderCount = 'renderCount' in component ? component.renderCount : 1
+          return {
+            name: container.extractComponentName(component),
+            renderCount: component.renderCount
+          }
+        })
         return devtoolsComponentsMap
       }, {})
       var event = new CustomEvent('cerebral.dev.components', {
