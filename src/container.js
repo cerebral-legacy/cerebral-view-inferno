@@ -60,7 +60,7 @@ class Container extends Component {
     })
     var end = Date.now()
 
-    if (process.env.NODE_ENV !== 'production' && (componentsToRender.length) {
+    if (process.env.NODE_ENV !== 'production' && componentsToRender.length) {
       var container = this
       var devtoolsComponentsMap = Object.keys(componentsMap).reduce(function (devtoolsComponentsMap, key) {
         devtoolsComponentsMap[key] = componentsMap[key].map(function (component) {
