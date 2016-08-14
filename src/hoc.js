@@ -77,6 +77,7 @@ module.exports = function (paths, signals, Component) {
       }, propsToPass)
 
       if (signals) {
+        signals = typeof signals === 'function' ? signals(propsToPass) : signals
         propsToPass = Object.keys(signals).reduce(function (props, key) {
           props[key] = controller.getSignals(signals[key])
 
