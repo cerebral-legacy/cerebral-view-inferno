@@ -1,0 +1,5 @@
+src
+.gitignore
+.npmignore
+.travis.yml
+webpack.build.config.js
