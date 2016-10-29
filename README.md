@@ -1,5 +1,7 @@
 # cerebral-view-inferno
-Inferno view package for Cerebral
+Inferno view package for Cerebral 1.x
+
+In Cerebral 2 Inferno is integrated in the core.
 
 ### How to use
 Go to [http://www.cerebraljs.com/documentation/cerebral-view-inferno](http://www.cerebraljs.com/documentation/cerebral-view-inferno)
